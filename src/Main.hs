@@ -1,12 +1,13 @@
 import System.Environment
-import qualified Dispatch as D
+import qualified Dispatch
 
 main :: IO ()
 main = do
-    programArgs <- getArgs
-    programName <- getProgName
-    let prog = D.Args { D.name = programName, D.args = programArgs } 
+    progName <- getProgName
+    progArgs <- getArgs
     
-    return ()
-    
-    
+    let (subprog, args) = case progArgs of
+                            [] -> ("help", [])
+                            (p:ps) -> (p, ps)
+    Dispatch.runSubprogram subprog args
+        
